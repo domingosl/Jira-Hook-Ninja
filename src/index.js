@@ -1,5 +1,5 @@
 import Resolver from '@forge/resolver';
-import api, {webTrigger, storage, route} from "@forge/api";
+import api, {webTrigger, storage, startsWith , route} from "@forge/api";
 const LiteGraph = require('../static/configurator-app/src/js/litegraph');
 
 
@@ -42,13 +42,29 @@ const waitForCompletion = async (graph, iteration = 1) => {
 
 resolver.define('saveFlow', async (req) => {
 
-    await storage.set('flow', req.payload);
+    await storage.set('flow_' + req.payload.id, {
+        name: req.payload.name,
+        data: req.payload.data,
+        saveAt: new Date().getTime()
+    });
+
     return true;
+});
+
+resolver.define('deleteFlow', async (req) => {
+    await storage.delete('flow_' + req.payload.id);
+    return true;
+});
+
+resolver.define('listFlows', async (req) => {
+
+    return await storage.query().where('key', startsWith('flow_')).limit(10).getMany();
+
 });
 
 resolver.define('loadFlow', async (req) => {
 
-    return await storage.get('flow');
+    return await storage.get('flow_' + req.payload.id);
 
 });
 
@@ -90,23 +106,32 @@ export const processWebhook = async (req) => {
     const Blocks = require('../static/configurator-app/src/js/blocks');
     LiteGraph.registerNodes(Blocks);
 
-    const flow = await storage.get('flow');
+    const flowId = req.queryParameters.f[0];
+
+    const flow = await storage.get('flow_' + flowId);
 
     const graph = new LiteGraph.LGraph(null, apiClient);
     await graph.loadJiraSpecifics();
 
+    graph.currentFlow = {
+        id: flowId,
+        name: flow.name
+    };
+
+
     graph.jiraSpecifics.webtriggerURL = await webTrigger.getUrl("webhook-handler");
 
-    graph.configure(flow);
+    graph.configure(flow.data);
     graph.start();
 
     const blockId = req.queryParameters.r[0];
+
 
     const nodes = graph.findNodesByType('Jira/Webtrigger');
 
     for(let n = 0; n < nodes.length; n++) {
 
-        if(nodes[n].properties.myId === blockId) {
+        if(String(nodes[n].properties.myId) === blockId) {
             nodes[n].triggerEvent(0, req.body, req.method, req.headers);
             break;
         }

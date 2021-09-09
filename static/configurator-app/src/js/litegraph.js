@@ -9580,7 +9580,7 @@ LGraphCanvas.onResizeNode = function (value, options, e, menu, node) {
 
 LGraphCanvas.prototype.showLinkMenu = function (link, e) {
     var that = this;
-    console.log(link);
+
     var options = ["Add Node", null, "Delete"];
     var menu = new LiteGraph.ContextMenu(options, {
         event: e,
@@ -10764,6 +10764,10 @@ LGraphCanvas.prototype.getCanvasMenuOptions = function () {
                 has_submenu: true,
                 callback: LGraphCanvas.onMenuAdd
             },
+            { content: "New Flow", has_submenu: false, callback: LiteGraph.newFlow },
+            { content: "Open Flow", has_submenu: false, callback: LiteGraph.openFlow },
+            { content: "Save Flow", has_submenu: false, callback: LiteGraph.saveFlow },
+            { content: "Delete Flow", has_submenu: false, callback: LiteGraph.deleteFlow },
             //{content: "Add Group", callback: LGraphCanvas.onGroupAdd}
             //{content:"Collapse All", callback: LGraphCanvas.onMenuCollapseAll }
         ];
@@ -10980,7 +10984,6 @@ LGraphCanvas.prototype.processContextMenu = function (node, event) {
         } else {
             menu_info = this.getCanvasMenuOptions();
 
-            console.log(menu_info);
 
             var group = this.graph.getGroupOnPos(
                 event.canvasX,

@@ -31,9 +31,6 @@ class NetworkIncomingWebhook extends AbstractBlock {
     async onAdded() {
 
         this.myId = new Date().getTime();
-        //this.graph.remove(this);
-
-        //require('../../clients_src/app/js/modals/abstract').Toast("warning", "Only one Incoming Webhook block can be added by flow", 5000);
 
     }
 
@@ -44,7 +41,7 @@ class NetworkIncomingWebhook extends AbstractBlock {
         else
             this.myId = this.properties.myId;
 
-        this.properties.url = this.graph.jiraSpecifics.webtriggerURL + "?r=" + this.properties.myId;
+        this.properties.url = this.graph.jiraSpecifics.webtriggerURL + "?r=" + this.properties.myId + "&f=" + this.graph.currentFlow.id;
 
 
         //Running on BE
@@ -71,7 +68,7 @@ class NetworkIncomingWebhook extends AbstractBlock {
     onShowCustomPanelInfo(panel) {
 
         if(!this.properties.myId) {
-            this.properties.url = this.graph.jiraSpecifics.webtriggerURL + "?r=" + this.myId;
+            this.properties.url = this.graph.jiraSpecifics.webtriggerURL + "?r=" + this.myId + "&f=" + this.graph.currentFlow.id;
             this.properties.myId = this.myId;
         }
 

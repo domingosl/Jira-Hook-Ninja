@@ -3,6 +3,9 @@
 @import "loader";
 @import "noty-theme";
 
+@import '../../node_modules/sweetalert2/dist/sweetalert2.min.css';
+@import '../../node_modules/@sweetalert2/theme-dark/dark.css';
+
 html, body {
   overflow-x: hidden;
   padding: 0;
@@ -110,12 +113,13 @@ h1 {
 }
 
 .litegraph-editor h1 {
-  font-family: Poppins, sans-serif;
+  font-family: Lato, sans-serif;
   color: #ddd;
   font-size: 23px;
   padding-left: 10px;
   margin: 0;
-  font-weight: bold;
+  font-weight: 100;
+  line-height: 1.4;
 }
 
 
@@ -283,4 +287,8 @@ h1 {
   color: white;
   font-family: 'Lato';
   resize: none;
+}
+
+.swal2-styled.swal2-confirm {
+  background-color: rgb(0, 82, 204);
 }
