@@ -1,0 +1,26 @@
+modules:
+  jira:adminPage:
+    - key: jira-hook-ninja-hello-world-admin-page
+      resource: main
+      resolver:
+        function: fe-resolver
+      title: jira-hook-ninja
+  webtrigger:
+    - key: webhook-handler
+      function: processWebhook
+  function:
+    - key: fe-resolver
+      handler: index.feResolver
+    - key: processWebhook
+      handler: index.processWebhook
+resources:
+  - key: main
+    path: static/configurator-app/build
+app:
+  id: ari:cloud:ecosystem::app/8c520cec-41d2-415a-8393-6879f3164ca5
+permissions:
+  scopes:
+    - 'storage:app'
+    - 'read:jira-work'
+    - 'write:jira-work'
+    - 'read:jira-user'

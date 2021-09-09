@@ -1,0 +1,23 @@
+{
+  "name": "configurator-app",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rm -rf build",
+    "build": "parcel build ./src/index.html --dist-dir ./build --public-url './'",
+    "dev": "parcel ./src/index.html --dist-dir ./build --public-url './'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.0.0-rc.0",
+    "parcel": "^2.0.0-rc.0"
+  },
+  "dependencies": {
+    "@forge/api": "^2.2.1",
+    "@forge/bridge": "^2.0.0",
+    "debounce": "^1.2.1",
+    "noty": "^3.2.0-beta-deprecated"
+  }
+}

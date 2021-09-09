@@ -1,0 +1,14 @@
+{
+  "name": "jira-hook-ninja",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "eslint": "^6.5.1",
+    "eslint-plugin-react-hooks": "^2.1.2"
+  },
+  "dependencies": {
+    "@forge/resolver": "^1.2.0"
+  }
+}

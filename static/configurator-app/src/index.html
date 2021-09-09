@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Configurator</title>
+
+    <link rel="stylesheet" href="../node_modules/noty/lib/noty.css">
+    <link rel="stylesheet" href="./scss/main.scss">
+
+</head>
+<body>
+    <div id="main" class="litegraph litegraph-editor">
+
+        <div class='header'>
+            <div class='tools tools-left'>
+                <h1 id='flow-title'></h1>
+            </div>
+            <div class='tools tools-right'>
+                <button id="save-btn" class="btn">Save</button>
+            </div>
+        </div>
+
+        <div class='content'>
+            <div class='editor-area'>
+                <canvas id="editor" class='graphcanvas' width='1000' height='500' tabindex=10></canvas>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+<script type="module" src="./app.js"></script>
+</html>
