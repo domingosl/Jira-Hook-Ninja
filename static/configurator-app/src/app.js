@@ -123,17 +123,23 @@ async function run() {
     console.log("Stored flows", storedFlows);
 
     if(storedFlows.length > 0) {
+        //await invoke('deleteFlow', { id: storedFlows[0].key.replace('flow_', '')});
+
+        graph.currentFlow = { id: storedFlows[0].key.replace('flow_', ''), name: storedFlows[0].value.name };
 
         storedFlows
             .sort((a, b) => (a.value.saveAt > b.value.saveAt) ? -1 : ((b.value.saveAt > a.value.saveAt) ? 1 : 0))
         graph.configure(storedFlows[0].value.data);
-        graph.currentFlow = { id: storedFlows[0].key.replace('flow_', ''), name: storedFlows[0].value.name };
 
         flowTitle.innerText = storedFlows[0].value.name;
+        blockingLoader.hide();
 
+    } else {
+        blockingLoader.hide();
+        graph.currentFlow = { id: new Date().getTime(), name: await newFlowModal.show() || 'Unnamed flow' }
     }
 
-    blockingLoader.hide();
+
     setTimeout(()=>canvas.resize(), 10);
     graph.start();
 

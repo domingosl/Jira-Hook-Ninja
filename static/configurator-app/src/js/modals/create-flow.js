@@ -17,7 +17,7 @@ module.exports.show = async () => {
             const formData = new FormData(Swal.getPopup().querySelector('#new-flow-form'));
             return formData.get('name')
         },
-        confirmButtonText: 'New Flow',
+        confirmButtonText: 'Save Flow',
         focusConfirm: false
     });
 

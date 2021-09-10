@@ -3,26 +3,41 @@ const debounce = require('debounce');
 
 class Once extends AbstractBlock {
 
-    static title = "Once";
-    static desc = "Lets an event pass only once";
-    static menu = "Flow Control/Once";
+    static title = "Once Every";
+    static desc = "Lets an event pass only once every set amount of time";
+    static menu = "Flow Control/Once every";
 
     constructor(props) {
 
         super(props);
 
         this.addInput('trigger', LiteGraph.ACTION);
-        this.addOutput('trigger', LiteGraph.EVENT);
+        this.addOutput('event', LiteGraph.EVENT);
 
-        this.addProperty('activated', false);
+        this.addProperty('locked', false);
 
         const me = this;
 
         this.addWidget('space');
 
-        this.activatedWidget = this.addWidget("toggle", "Activated", false, value => this.properties['activated'] = value, {on: "yes", off: "no"});
+        this.everyWidget = this.addWidget(
+            "number",
+            "Every",
+            0,
+            every => {
+                this.properties['every'] = every;
+            });
 
-        this.activatedWidget.disabled = true;
+        this.everyUnitComboWidget = this.addWidget(
+            "combo",
+            "Unit",
+            "seconds",
+            value => this.properties['everyUnit'] = value,
+            { values: ['seconds', 'minutes', 'hours', 'days']} );
+
+
+        //this.lockWidget = this.addWidget("toggle", "Lock", false, value => this.properties['locked'] = value, {on: "yes", off: "no"});
+        //this.lockWidget.disabled = true;
 
 
 
@@ -32,8 +47,9 @@ class Once extends AbstractBlock {
             null,
             debounce(
                 function (v) {
-                    me.properties['activated'] = false;
-                    me.activatedWidget.value = false
+                    me.properties['locked'] = false;
+                    me.lockWidget.value = false;
+                    me.properties.lastPass = 0;
                 }
                 , 1000, true), {});
 
@@ -42,18 +58,30 @@ class Once extends AbstractBlock {
 
     onConfigure() {
 
-        this.activatedWidget.value = this.properties['activated'];
+        //this.lockWidget.value = this.properties['locked'];
+        this.everyWidget.value = this.properties['every'] || 0;
+        this.everyUnitComboWidget.value = this.properties['everyUnit'] || 'seconds';
 
     }
 
 
     async onAction(action, event) {
 
-        if(!this.properties['activated'])
-            this.triggerSlot(0, event);
+        const now = new Date().getTime();
 
-        this.properties['activated'] = true;
-        this.activatedWidget.value = true;
+        const m = this.properties.everyUnit === 'seconds' ? 1 :
+            this.properties.everyUnit === 'minutes' ? 60 :
+                this.properties.everyUnit === 'hours' ? 3600 :
+                    this.properties.everyUnit === 'days' ? 86400 : 1;
+
+        if(!this.properties.lastPass || !this.properties.every || (this.properties.lastPass + this.properties.every * m * 1000) < now) {
+            this.triggerSlot(0, event);
+            this.properties.lastPass = now;
+            this.properties['locked'] = true;
+            //this.lockWidget.value = true;
+        }
+
+
 
     }
 

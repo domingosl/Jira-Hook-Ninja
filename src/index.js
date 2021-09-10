@@ -106,6 +106,7 @@ export const processWebhook = async (req) => {
     const Blocks = require('../static/configurator-app/src/js/blocks');
     LiteGraph.registerNodes(Blocks);
 
+
     const flowId = req.queryParameters.f[0];
 
     const flow = await storage.get('flow_' + flowId);

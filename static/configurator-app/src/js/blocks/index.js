@@ -12,4 +12,6 @@ module.exports.MathSubstract = require('./math-subtract');
 module.exports.MathMultiply = require('./math-multiply');
 module.exports.MathDivide = require('./math-divide');
 module.exports.JiraCreateTicket = require('./jira-create-ticket');
-module.exports.JsonParse = require('./json-parse');
+module.exports.StringJsonParse = require('./string-json-parse');
+module.exports.ObjectSerialize = require('./object-serialize');
+module.exports.ObjectPickValue = require('./object-pick-value');
