@@ -42,6 +42,10 @@ LiteGraph.newFlow = async () => {
     flowTitle.innerText = name;
     graph.configure({});
 
+    blockingLoader.show();
+    await invoke('saveFlow', { id: graph.currentFlow.id, name: graph.currentFlow.name, data: "" });
+    blockingLoader.hide();
+
 };
 
 LiteGraph.deleteFlow = async () => {
@@ -136,7 +140,10 @@ async function run() {
 
     } else {
         blockingLoader.hide();
-        graph.currentFlow = { id: new Date().getTime(), name: await newFlowModal.show() || 'Unnamed flow' }
+        graph.currentFlow = { id: new Date().getTime(), name: await newFlowModal.show() || 'Unnamed flow' };
+        blockingLoader.show();
+        await invoke('saveFlow', { id: graph.currentFlow.id, name: graph.currentFlow.name, data: "" });
+        blockingLoader.hide();
     }
 
 

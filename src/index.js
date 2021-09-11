@@ -2,7 +2,6 @@ import Resolver from '@forge/resolver';
 import api, {webTrigger, storage, startsWith , route} from "@forge/api";
 const LiteGraph = require('../static/configurator-app/src/js/litegraph');
 
-
 const apiClient = require('../common/api-client');
 apiClient.setResolver(async (endpoint, method, payload)=>{
 
@@ -24,7 +23,7 @@ apiClient.setResolver(async (endpoint, method, payload)=>{
 const resolver = new Resolver();
 
 
-const wait = async (time) => new Promise(resolve => setTimeout(resolve, time));
+const wait = async (time = 0) => new Promise(resolve => setTimeout(resolve, time));
 
 const waitForCompletion = async (graph, iteration = 1) => {
 
@@ -125,15 +124,19 @@ export const processWebhook = async (req) => {
     graph.configure(flow.data);
     graph.start();
 
+    await wait();
     const blockId = req.queryParameters.r[0];
 
 
     const nodes = graph.findNodesByType('Jira/Webtrigger');
 
+    let cleanHeaders = {};
+    Object.keys(req.headers).forEach(key => cleanHeaders[key] = req.headers[key][0]);
+
     for(let n = 0; n < nodes.length; n++) {
 
         if(String(nodes[n].properties.myId) === blockId) {
-            nodes[n].triggerEvent(0, req.body, req.method, req.headers);
+            nodes[n].triggerEvent(0, req.body, req.method, cleanHeaders);
             break;
         }
 

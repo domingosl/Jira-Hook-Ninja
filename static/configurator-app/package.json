@@ -18,6 +18,7 @@
     "@forge/api": "^2.2.1",
     "@forge/bridge": "^2.0.0",
     "@sweetalert2/theme-dark": "^5.0.4",
+    "crypto-js": "^4.1.1",
     "debounce": "^1.2.1",
     "noty": "^3.2.0-beta-deprecated",
     "sweetalert2": "^11.1.5"

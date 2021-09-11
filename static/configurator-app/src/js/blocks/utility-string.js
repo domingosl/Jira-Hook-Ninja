@@ -21,7 +21,7 @@ class UtilityString extends AbstractBlock {
 
         this.addWidget("space");
 
-        this.numberWidget = this.addWidget(
+        this.stringWidget = this.addWidget(
             "string",
             "String",
             "",
@@ -35,7 +35,7 @@ class UtilityString extends AbstractBlock {
 
     onExecute() {
 
-        this.numberWidget.value = this.properties['string']  ? this.properties['string'] : "";
+        this.stringWidget.value = this.properties['string']  ? this.properties['string'] : "";
         this.setOutputData(0, this.properties['string']);
 
     }

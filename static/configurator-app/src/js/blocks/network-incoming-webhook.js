@@ -21,7 +21,7 @@ class NetworkIncomingWebhook extends AbstractBlock {
         this.addOutput('trigger', LiteGraph.EVENT);
         this.addOutput('body (string)', 'string');
         this.addOutput('method (string)', 'string');
-        this.addOutput('headers (object)', 'string');
+        this.addOutput('headers (object)', 'object');
 
         this.resizable = true;
 
