@@ -36,13 +36,16 @@ class Branch extends AbstractBlock {
         this.size = [280, 130];
     }
 
-    onAction (action, event) {
 
+    async onAction (action, event) {
+
+        await this.yield();
 
         const a = this.getInputData(1);
         const b = this.getInputData(2);
 
-        if(this.properties.operator === 'A equals B' && parseFloat(a) === parseFloat(b))
+
+        if(this.properties.operator === 'A equals B' && a === b)
             this.triggerSlot(0, event);
         else if(this.properties.operator === 'A lower than B' && parseFloat(a) < parseFloat(b))
             this.triggerSlot(0, event);
@@ -56,7 +59,6 @@ class Branch extends AbstractBlock {
             this.triggerSlot(0, event);
         else
             this.triggerSlot(1, event);
-
 
     }
 

@@ -37,12 +37,19 @@ class ObjectPickValue extends AbstractBlock {
 
     }
 
-
     onAction(action, event) {
 
-
-        this.setOutputData(1, this.getInputData(1)[this.properties.key]);
+        try {
+            this.setOutputData(1, this.getInputData(1)[this.properties.key]);
+        }
+        catch (e) {}
         this.triggerSlot(0, event);
+    }
+
+    onConfigure() {
+
+        this.keyWidget.value = this.properties['key'] || "";
+
     }
 
 }

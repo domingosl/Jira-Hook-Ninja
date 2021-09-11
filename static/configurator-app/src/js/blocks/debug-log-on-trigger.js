@@ -22,7 +22,7 @@ class LogEvent extends AbstractBlock {
     onAction(action, param) {
 
         const data =  this.getInputData(1);
-        console.log("Log event on trigger", data);
+        console.log("[" + new Date().getTime() + "]", data);
 
         //Running on BE
         if(typeof document === 'undefined')

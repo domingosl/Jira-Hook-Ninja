@@ -13,24 +13,28 @@ class AbstractBlock {
         this.graph.logger("error", "<h1>Error in " + this.type + " block</h1><br />" + message, 5000);
     }
 
-
-/*    onConnectionsChange(io, slot, connected, linkInfo, inputInfo) {
-
-        if(io === 1 && connected && linkInfo) {
-            const originNode = this.graph.getNodeById(linkInfo.origin_id);
-            if(typeof originNode.getOutputSchema === "function" && typeof this.setInputSchema === 'function')
-                this.setInputSchema(originNode.getOutputSchema());
-        }
-        else if(io === 1 && !connected && typeof this.setInputSchema === 'function') {
-            this.setInputSchema(null);
-        }
-
-
+    async yield(time = 0) {
+        new Promise(resolve => setTimeout(resolve, time));
     }
 
-    getOutputSchema() {
-        return this.schema;
-    }*/
+
+    /*    onConnectionsChange(io, slot, connected, linkInfo, inputInfo) {
+
+            if(io === 1 && connected && linkInfo) {
+                const originNode = this.graph.getNodeById(linkInfo.origin_id);
+                if(typeof originNode.getOutputSchema === "function" && typeof this.setInputSchema === 'function')
+                    this.setInputSchema(originNode.getOutputSchema());
+            }
+            else if(io === 1 && !connected && typeof this.setInputSchema === 'function') {
+                this.setInputSchema(null);
+            }
+
+
+        }
+
+        getOutputSchema() {
+            return this.schema;
+        }*/
 
 }
 

@@ -62,25 +62,22 @@ class CryptoHmac extends AbstractBlock {
 
     onAction(action, event) {
 
-        let shaAlgo, hmacAlgo;
+        let hmacAlgo;
 
         if(this.properties.shaAlgo === 'sha1' || !this.properties.shaAlgo) {
-            shaAlgo = sha1;
             hmacAlgo = hmacSHA1;
         }
         else if(this.properties.shaAlgo === 'sha256') {
-            shaAlgo = sha256;
             hmacAlgo = hmacSHA256;
         }
         else if(this.properties.shaAlgo === 'sha512') {
-            shaAlgo = sha512;
             hmacAlgo = hmacSHA512;
         }
 
 
         this.setOutputData(1,
             (this.properties.digest === 'base64' ? Base64 : Hex)
-                .stringify(hmacAlgo(shaAlgo(this.getInputData(1) + ""), this.getInputData(2) + "")));
+                .stringify(hmacAlgo((this.getInputData(1) + ""), this.getInputData(2) + "")));
 
         this.triggerSlot(0, event);
     }
