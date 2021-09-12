@@ -39,8 +39,6 @@ class Once extends AbstractBlock {
         //this.lockWidget = this.addWidget("toggle", "Lock", false, value => this.properties['locked'] = value, {on: "yes", off: "no"});
         //this.lockWidget.disabled = true;
 
-
-
         this.addWidget(
             "button",
             "Reset",
@@ -48,8 +46,9 @@ class Once extends AbstractBlock {
             debounce(
                 function (v) {
                     me.properties['locked'] = false;
-                    me.lockWidget.value = false;
+                    //me.lockWidget.value = false;
                     me.properties.lastPass = 0;
+                    me.info("Once cycle reset!");
                 }
                 , 1000, true), {});
 
@@ -75,11 +74,15 @@ class Once extends AbstractBlock {
                     this.properties.everyUnit === 'days' ? 86400 : 1;
 
         if(!this.properties.lastPass || !this.properties.every || (this.properties.lastPass + this.properties.every * m * 1000) < now) {
-            this.triggerSlot(0, event);
+
             this.properties.lastPass = now;
             this.properties['locked'] = true;
+            this.triggerSlot(0, event);
             //this.lockWidget.value = true;
+            console.log("Once accepted!");
         }
+        else
+            console.log("Once rejected!");
 
 
 

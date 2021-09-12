@@ -39,11 +39,14 @@ LiteGraph.newFlow = async () => {
         name
     };
 
-    flowTitle.innerText = name;
-    graph.configure({});
+    const payload = { id: graph.currentFlow.id, name: graph.currentFlow.name, data: "" };
+
+    console.log("new flow...", { payload });
 
     blockingLoader.show();
-    await invoke('saveFlow', { id: graph.currentFlow.id, name: graph.currentFlow.name, data: "" });
+    await invoke('saveFlow', payload);
+    flowTitle.innerText = name;
+    graph.configure({});
     blockingLoader.hide();
 
 };
@@ -83,7 +86,7 @@ LiteGraph.openFlow = async () => {
         graph.currentFlow = { id: flow.key.replace('flow_', ''), name: flow.value.name };
         flowTitle.innerText = flow.value.name;
 
-        graph.configure(flow.value.data);
+        graph.configure(flow.value.data || {});
 
     });
 
@@ -129,24 +132,26 @@ async function run() {
     if(storedFlows.length > 0) {
         //await invoke('deleteFlow', { id: storedFlows[0].key.replace('flow_', '')});
 
-        graph.currentFlow = { id: storedFlows[0].key.replace('flow_', ''), name: storedFlows[0].value.name };
 
         storedFlows
-            .sort((a, b) => (a.value.saveAt > b.value.saveAt) ? -1 : ((b.value.saveAt > a.value.saveAt) ? 1 : 0))
+            .sort((a, b) => (a.value.saveAt > b.value.saveAt) ? -1 : ((b.value.saveAt > a.value.saveAt) ? 1 : 0));
+
+        graph.currentFlow = { id: storedFlows[0].key.replace('flow_', ''), name: storedFlows[0].value.name };
+
         graph.configure(storedFlows[0].value.data);
 
-        flowTitle.innerText = storedFlows[0].value.name;
-        blockingLoader.hide();
-
     } else {
+
         blockingLoader.hide();
         graph.currentFlow = { id: new Date().getTime(), name: await newFlowModal.show() || 'Unnamed flow' };
         blockingLoader.show();
         await invoke('saveFlow', { id: graph.currentFlow.id, name: graph.currentFlow.name, data: "" });
-        blockingLoader.hide();
+
     }
 
 
+    blockingLoader.hide();
+    flowTitle.innerText = graph.currentFlow.name;
     setTimeout(()=>canvas.resize(), 10);
     graph.start();
 

@@ -7,7 +7,8 @@ module.exports.show = async (cb) => {
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes, delete it!',
+        allowEnterKey: false
     });
 
     if (result.isConfirmed) {

@@ -4,7 +4,8 @@ modules:
       resource: main
       resolver:
         function: fe-resolver
-      title: jira-hook-ninja
+      title: 'Jira Hook Ninja'
+      icon: 'https://i.postimg.cc/ht4mxQbk/Nuovo-progetto-12.png'
   webtrigger:
     - key: webhook-handler
       function: processWebhook

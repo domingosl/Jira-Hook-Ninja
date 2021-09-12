@@ -6,6 +6,7 @@ module.exports.show = async (flowList, cb) => {
         title: 'Select your flow',
         html: '',
         input: 'select',
+        allowEnterKey: false,
         inputOptions: flowList,
         inputPlaceholder: 'Select your flow',
         showCancelButton: true,

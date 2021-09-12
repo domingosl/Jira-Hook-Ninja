@@ -37,7 +37,6 @@ class UtilityCount extends AbstractBlock {
             { values: ['seconds', 'minutes', 'hours', 'days']} );
 
 
-
         this.addWidget(
             "button",
             "Reset counter",
@@ -46,6 +45,7 @@ class UtilityCount extends AbstractBlock {
                 function (v) {
                     me.properties.counter = 0;
                     me.properties.firstHit = null;
+                    me.info("Counter reset!");
                 }
                 , 1000, true), {});
 
@@ -70,6 +70,7 @@ class UtilityCount extends AbstractBlock {
         this.setOutputData(1, this.properties.counter);
 
         this.triggerSlot(0, event);
+        console.log("Counter", this.properties.counter);
 
 
     }

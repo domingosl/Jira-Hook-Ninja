@@ -144,6 +144,8 @@ export const processWebhook = async (req) => {
 
     await waitForCompletion(graph);
 
+    await storage.set('flow_' + flowId, {...flow, data: graph.serialize() });
+
     return {
         body: 'done!',
         headers: {

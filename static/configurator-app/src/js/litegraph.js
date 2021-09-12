@@ -4726,7 +4726,7 @@ function LGraphCanvas(canvas, graph, options) {
     this.set_canvas_dirty_on_mouse_event = true; //forces to redraw the canvas if the mouse does anything
     this.always_render_background = false;
     this.render_shadows = true;
-    this.render_canvas_border = true;
+    this.render_canvas_border = false;
     this.render_connections_shadows = false; //too much cpu
     this.render_connections_border = true;
     this.render_curved_connections = false;
@@ -8661,8 +8661,8 @@ LGraphCanvas.prototype.drawNodeWidgets = function (
         switch (w.type) {
             case "button":
                 if (w.clicked) {
-                    ctx.fillStyle = "#AAA";
-                    w.clicked = false;
+                    ctx.fillStyle = "#f50000";
+                    setTimeout(()=>w.clicked = false, 100);
                     this.dirty_canvas = true;
                 }
                 ctx.fillRect(margin, y, widget_width - margin * 2, H);
